@@ -1,47 +1,39 @@
-const formularioMedico = document.getElementById('registro-medicos-form');
-formularioMedico.addEventListener('submit', (event) => {
+const formularioDoctor = document.getElementById('registro-medicos-form');
+formularioDoctor.addEventListener('submit', (event) => {
     event.preventDefault();
-    const datosMedico = {//objeto
+    const datosDoctor = {//objeto
         nombreMedico: document.getElementById('nombre').value,
         apellidoMedico: document.getElementById('apellido').value,
         cedula: document.getElementById('cedula').value,
         consultorio: document.getElementById('consultorio').value,
-        telefonoMedico: document.getElementById('telefono').value,
-        especialidad: document.getElementById('especialidad').value,
-        correo: document.getElementById('correo').value
+        correoMedico: document.getElementById('correo').value,
+        especialidad: document.getElementById('especialidad').value
     };
-    const medicosCookie = getCookie('medicos') ? JSON.parse(getCookie('medicos')) : [];
-    //¿hay algun medico con la especialidad? si si me devuleve true sino false
-    const existeMedico = medicosCookie.some(medico => medico.especialidad === datosMedico.especialidad);
-    if (existeMedico) {
-        alert("Ya existe un medico para esta especialidad");
-    } else {
-        guardarEnCookie(datosMedico);
-    }
-    const confirmacion = confirm('¿Desea ver los datos o seguir añadiendo medicos?');
+    guardarEnCookie(datosDoctor)
+    const confirmacion = confirm('¿Desea ver los datos o seguir añadiendo doctores?');
     if (confirmacion) {
-        window.location.href = 'medicos.html';
+        window.location.href = 'doctores.html';
     } else {
         console.log('Continuando en el formulario');
-        formularioMedico.reset()
+        formularioDoctor.reset()
     }
 });
 // Función para guardar una medico en la cookie
-function guardarEnCookie(medico) {
+function guardarEnCookie(doctor) {
     // Obtener los datos de la cookie actual
-    let datosMedico = getCookie("medicos");
+    let datosDoctor = getCookie("doctores");
     // Si la cookie está vacía, inicializarla como un arreglo vacío
-    if (datosMedico === "") {
-        datosMedico = "[]";
+    if (datosDoctor === "") {
+        datosDoctor = "[]";
     }
     // Convertir la cookie en un arreglo de objetos
-    const medicos = JSON.parse(datosMedico);
+    const doctores = JSON.parse(datosDoctor);
     // Agregar la nueva medico al arreglo
-    medicos.push(medico);
+    doctores.push(doctor);
     // Convertir el arreglo de medicos de nuevo a un JSON
-    const nuevoJSON = JSON.stringify(medicos);
+    const nuevoJSON = JSON.stringify(doctores);
     // Guardar el JSON en la cookie
-    setCookie("medicos", nuevoJSON);
+    setCookie("doctores", nuevoJSON);
 }
 
 // Función para obtener los datos de la cookie
